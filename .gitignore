@@ -1,0 +1,11 @@
+node_modules/
+*.log
+.DS_Store
+
+# Build artefacts
+texbuild/
+preview-top.png
+paper.html
+
+# scratch
+COMMIT_MSG.txt

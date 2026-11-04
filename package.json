@@ -1,0 +1,17 @@
+{
+  "name": "prose-does-not-bind-agents",
+  "private": true,
+  "type": "module",
+  "description": "Preprint: mechanically enforced safeguards for multi-agent coding on a single repository.",
+  "scripts": {
+    "render": "bun run render.mjs",
+    "tex": "bun run tex.mjs",
+    "preview": "bun run preview.mjs"
+  },
+  "dependencies": {
+    "marked": "^18.1.3"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0"
+  }
+}

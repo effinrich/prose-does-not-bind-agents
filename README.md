@@ -17,38 +17,44 @@ rulebook. We ask a
 narrow question: when such agents remove or weaken the very artefacts that
 constrain them, what makes the constraint survive?
 
-We report three findings. **F1 (a correct, disclosed, irreversible deletion).**
+We report four findings. **F1 (a disclosed, irreversible deletion).**
 An agent removed the repository's specification harness: 137 files and 10,097
-lines in one commit, because the brief did not ask for tests. The removal was
-right on the brief's terms, it was named in full in the commit message, and the
-commit carries the agent's own trailer. What failed was not the deletion but
-the record: nothing in the repository afterwards distinguished *never existed*
-from *deleted*, and the scope rules that later governed the repository were
-written by the deletion itself. **F2 (a directive that arrived after the
-work).** Four agents working one task concurrently each built their own
-crop-and-export primitive instead of using the one the platform ships; one
-reached the trunk and had to be taken out again. The prose directive that
-would have prevented it was written the following day, and nothing could tell
-whether a given agent had complied. **F3 (checks that pass for the wrong
-reason).** Three automated checks passed while asserting less than they
-appeared to; each was found and fixed only because the property being claimed
-was written down and examined.
+lines in one commit. It was named in full in the commit message, and the commit
+carries the agent's own trailer. It was not, however, the correct scope call
+that the commit's first sentence claims: the repository's own decision record,
+five days earlier and removed in the same commit, had already grounded the
+harness in the brief. What failed was the deletion and the record together —
+nothing in the repository afterwards distinguished *never existed* from
+*deleted*, and the scope rules that later governed the repository were written
+by the deletion itself. **F2 (a directive that arrived after the work).** Four
+agents working one task concurrently each built their own crop-and-export
+primitive instead of using the one the platform ships; one reached the trunk
+and had to be taken out again. The prose directive that would have prevented it
+was written the following day, and nothing could tell whether a given agent had
+complied. **F3 (checks that pass for the wrong reason).** Three automated
+checks passed while asserting less than they appeared to; each was found and
+fixed only because the property being claimed was written down and examined.
+**F4 (the record of intent was written by the thing it was about).** Most of
+the repository's decision records state the operator's positions, but most of
+them were drafted by a coding agent and ratified by him afterwards, and one of
+them describes work that agent had itself done.
 
-We then describe the mechanism that followed: moving constraints out of prose and
-into the build. Four rules — hash-pinned protected files, mechanical invariants,
-required and forbidden gate targets, and separately bounded budgets — all of
-which fail the build when violated. One episode is kept outside the findings,
-because no written rule answers it: the machine the agents ran on was compromised
-by a trojan (§4.4). We argue that the design question for agent-assisted
-development is not how to write better instructions but what to make checkable,
-and that a repository governed by prose is governed by nothing.
+We then describe the mechanism that followed: moving constraints out of prose
+and into the build. Four rules — hash-pinned protected files, mechanical
+invariants, required and forbidden gate targets, and separately bounded
+budgets — all of which fail the build when violated. One episode is kept
+outside the findings, because no written rule answers it: the machine the
+agents ran on was compromised by a trojan (§4.5). We argue that the design
+question for agent-assisted development is not how to write better instructions
+but what to make checkable, and that a repository governed by prose is
+governed by nothing.
 
 **Keywords:** multi-agent systems; AI coding agents; software engineering;
 repository governance; guardrails; large language models; empirical case study
 
 ## The paper
 
-- [`paper.pdf`](paper.pdf) — the formatted preprint (A4, 17 pages). This is the
+- [`paper.pdf`](paper.pdf) — the formatted preprint (A4, 18 pages). This is the
   one to submit.
 - [`paper-latex.pdf`](paper-latex.pdf) — the same paper typeset by LaTeX, for
   venues that prefer a TeX-produced PDF.

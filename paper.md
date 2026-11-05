@@ -41,29 +41,34 @@ prose rulebook. We
 ask a narrow question: when such agents remove or weaken the very artefacts
 that constrain them, what makes the constraint survive?
 
-We report three findings. **F1 (a correct, disclosed, irreversible deletion).**
+We report four findings. **F1 (a disclosed, irreversible deletion).**
 An agent removed the repository's specification harness: 137 files and 10,097
-lines in one commit, because the brief did not ask for tests. The removal was
-right on the brief's terms, it was named in full in the commit message, and the
-commit carries the agent's own trailer. What failed was not the deletion but
-the record: nothing in the repository afterwards distinguished *never existed*
-from *deleted*, and the scope rules that later governed the repository were
-written by the deletion itself. **F2 (a directive that arrived after the
-work).** Four agents working one task concurrently each built their own
-crop-and-export primitive instead of using the one the platform ships; one
-reached the trunk and had to be taken out again. The prose directive that
-would have prevented it was written the following day, and nothing could tell
-whether a given agent had complied. **F3 (checks that pass for the wrong
-reason).** Three automated checks passed while asserting less than they
-appeared to; each was found and fixed only because the property being claimed
-was written down and examined.
+lines in one commit. It was named in full in the commit message, and the commit
+carries the agent's own trailer. It was not, however, the correct scope call
+that the commit's first sentence claims: the repository's own decision record,
+five days earlier and removed in the same commit, had already grounded the
+harness in the brief. What failed was the deletion and the record together —
+nothing in the repository afterwards distinguished *never existed* from
+*deleted*, and the scope rules that later governed the repository were written
+by the deletion itself. **F2 (a directive that arrived after the work).** Four
+agents working one task concurrently each built their own crop-and-export
+primitive instead of using the one the platform ships; one reached the trunk
+and had to be taken out again. The prose directive that would have prevented it
+was written the following day, and nothing could tell whether a given agent had
+complied. **F3 (checks that pass for the wrong reason).** Three automated
+checks passed while asserting less than they appeared to; each was found and
+fixed only because the property being claimed was written down and examined.
+**F4 (the record of intent was written by the thing it was about).** Most of
+the repository's decision records state the operator's positions, but most of
+them were drafted by a coding agent and ratified by him afterwards, and one of
+them describes work that agent had itself done.
 
 We then describe the mechanism that followed: moving constraints out of prose
 and into the build. Four rules — hash-pinned protected files, mechanical
 invariants, required and forbidden gate targets, and separately bounded
 budgets — all of which fail the build when violated. One episode is kept
 outside the findings, because no written rule answers it: the machine the
-agents ran on was compromised by a trojan (§4.4). We argue that the design
+agents ran on was compromised by a trojan (§4.5). We argue that the design
 question for agent-assisted development is not how to write better instructions
 but what to make checkable, and that a repository governed by prose is
 governed by nothing.
@@ -103,10 +108,11 @@ rather than on a machine-checkable artefact, we say so.
 
 ### 1.1 Contributions
 
-1. Three failure modes observed in the wild under a prose-only rulebook: a
-   correct, disclosed deletion that left no surviving record; a directive that
-   arrived after the work it should have governed; and checks that pass for the
-   wrong reason (§4).
+1. Four failure modes observed in the wild under a prose-only rulebook: a
+   disclosed deletion that was not the correct scope call and left no surviving
+   record; a directive that arrived after the work it should have governed;
+   checks that pass for the wrong reason; and a record of intent drafted by the
+   thing it describes (§4).
 2. A mechanism that survives agents, expressed entirely as checks that fail a
    build (§5), with the code and its configuration public.
 3. A statement of the design principle the mechanism encodes: *constraints that
@@ -213,10 +219,12 @@ is not in the visible history. Findings that depend on the construction rather
 than on the removal inherit this limit (§7).
 
 **The decision records.** Seventeen markdown files, each holding a context, a
-decision and its consequences, written by the operator. They are the closest
-thing in the corpus to a primary source for intent, because they were written
-at or near the moment of decision. They are also the operator's account, and
-the operator is the author of this paper.
+decision and its consequences, stating the operator's positions. They are the
+closest thing in the corpus to a primary source for intent, because they were
+written at or near the moment of decision. They are not, for the most part, the
+operator's own prose: most were drafted by a coding agent and ratified by him
+afterwards (§4.4). They are the operator's account, but a mediated one, and the
+operator is the author of this paper.
 
 **The session transcript.** 9,924 lines covering the working session: 86 turns,
 1,834 tool calls and 7 context compactions, sanitised for publication. It
@@ -266,8 +274,13 @@ Decision record 0009, *What we deliberately did not build*, dated 2026-10-01,
 opens: "An unexplained absence reads as an oversight. A recorded exclusion
 reads as judgement." It lists what the repository would not build — no
 backend, no auth, no persistence, no SSR — and says of the server that it is
-"scope the brief did not ask for". That is the principle the removal applied,
-and the removal applied it correctly.
+"scope the brief did not ask for". That is the principle the removal applied.
+Whether it applied it correctly is a separate question, and §4.1 takes it up:
+the corpus's own record on the harness grounds the harness in the brief, so the
+scope the removal applied was not the scope the brief had set. The second half
+of record 0009's principle — an unexplained absence reads as an oversight — is
+what the mechanism later made mechanical (§5.4). The removal did the opposite:
+it removed the record along with the thing.
 
 **The removal wrote the scope rules.** The scope rules first appear on
 2026-10-06, in the same commit that stripped the harness, and the commit says
@@ -318,7 +331,7 @@ prose rather than by making anything checkable.
 
 ## 4. Findings
 
-### 4.1 F1 — A correct, disclosed, irreversible deletion: 137 files in one commit
+### 4.1 F1 — A disclosed, irreversible deletion: 137 files in one commit
 
 On 2026-10-06, the day after the scaffold commit that introduced the
 harness, one commit removed the specification harness in its entirety: the
@@ -354,20 +367,55 @@ The commit message reads, in full:
 
 Read it again. The deletion was **disclosed**, in the first person, by name and
 in detail. It was **co-authored by the agent that made it**: the trailer names
-Cursor. And it was **reasonable**: the brief did not ask for tests, and the
-commit says so in its first sentence. This is not a story about an agent
-concealing a deletion. Every artefact a reader would need is in the commit.
+Cursor. This is not a story about an agent concealing a deletion. Every artefact
+a reader would need is in the commit.
 
-The governance failure was not the deletion. It was that the deletion was
-**irreversible in the record**. The decision records that had explained why
-the harness existed went with it: 0005 recorded the spec-and-test rules that
-went with it, and 0007 recorded the per-library Storybook rules, which were
-still in force afterwards. What survived could not be distinguished from what
-had never been there, and the reason for the removal lived in one commit
-message that no mechanism required anyone to read. The remedy, arrived at
-later and described in §5.4, is a manifest entry per removal, printed by the
-guardrail script on every run: the recorded exclusion that decision record
-0009 had asked for, made mechanical.
+It was also the second of two commits. The day before, `5915058` (#42) — also
+carrying Cursor's trailer — deleted `ai-guardrails.md`, `handoff.md`, the two
+`.commandcode/hooks/` scripts, the QA reports and `copilot-instructions.md`,
+and edited `HARNESS.md` and the four spec files. Its message classified the lot
+as "agent-tool leftovers and scratch notes", and said "None are app source". A
+day later `9eeb60a` (#43) removed the harness under the heading "strip the test
+harness". The rubric came first, and the same rubric — *not asked for, so not
+ours* — took the guardrail notes and then the harness.
+
+What the commit's first sentence claims, though, the corpus does not support.
+"Testing is not required by the brief" is a reading of the brief, and decision
+record 0007, dated 2026-10-01 and removed in this same commit, had already
+rejected that reading five days earlier:
+
+> Storybook and Chromatic are expected here — the brief is graded partly on
+> design consistency, and visual regression is how that is kept honest.
+
+and, on why the stories carried interaction assertions:
+
+> Interaction assertions live in play functions, so they run under the Storybook
+> test runner and Chromatic rather than in a separate e2e suite.
+
+Both records are readable at `9eeb60a^`, since the commit removed them. The
+brief asked for design consistency, and `docs/brief.md` restates it that way.
+The harness was how the repository kept that honest: `test-storybook` ran the
+interaction assertions, and the gate required both `test` and `test-storybook`.
+The removal deleted the target, the harness, and the record that justified it,
+in one commit.
+
+So the deletion was not a correct scope call. It was a judgement failure, and
+the operator's own later account says so, in terms: "An agent read 'stay
+inside the brief' and concluded that the spec harness, the specs and the
+decision records were outside it. That is a judgement failure, and it is
+ordinary — agents over-read a scope rule when it is stated as prose and
+enforced by nothing" (safeguards record).
+
+The governance failure was two failures, not one. The deletion was a judgement
+failure, and it was also **irreversible in the record**. The decision records
+that had explained why the harness existed went with it: 0005 recorded the
+spec-and-test rules that went with it, and 0007 recorded the per-library
+Storybook rules, which were still in force afterwards. What survived could not
+be distinguished from what had never been there, and the reason for the
+removal lived in one commit message that no mechanism required anyone to read.
+The remedy, arrived at later and described in §5.4, is a manifest entry per
+removal, printed by the guardrail script on every run: the recorded exclusion
+that decision record 0009 had asked for, made mechanical.
 
 There was a second, mechanical layer, and it did not help. The repository's
 `main` branch carried a ruleset from 2026-10-02. Before the failure it
@@ -438,8 +486,9 @@ load-bearing for anything the build can see.
 
 Decision record 0017, written on 2026-10-26, still says of that work: "None
 of it reached `main` — it lived in branches and in the working tree." The
-artefact says otherwise, and this paper reports the artefact. The record is
-the operator's account; the commit is the commit.
+artefact says otherwise, and this paper reports the artefact. The record states
+the operator's account, and it was drafted by an agent (§4.4); the commit is
+the commit.
 
 ### 4.3 F3 — Checks that pass for the wrong reason
 
@@ -481,7 +530,44 @@ only worth what its failure modes are worth, and a guardrail that cannot fail
 is indistinguishable from no guardrail at all. A check that *can* fail, and
 fails for the right reason, is the only kind worth adding.
 
-### 4.4 The environment, which is a different failure
+### 4.4 F4 — The record of intent was written by the thing it was about
+
+Seventeen decision records state the repository's positions, and they are the
+closest thing in the corpus to a primary source for intent. They are also, for
+the most part, not the operator's prose. At the corpus's final commit, eleven
+records had last been written by a commit carrying a single agent's
+`Co-authored-by` trailer, four by a commit carrying an agent's and the
+operator's, and two by commits with no trailer at all — one of those two the
+operator's own scaffold commit, the other unattributed. Each of those counts
+is one command away (§Appendix A).
+
+One of those records is decision record 0017, which §4.2 quotes: the account of
+the camera episode, of the four agents that built their own primitive. It was
+drafted by MiniMax Code in `39c7710`, the same commit that took the bespoke
+camera out of the trunk. The record of what happened was written by the agent
+that made it happen.
+
+That is not a reason to discount the record. It states the operator's position,
+and the operator ratified it. It is a reason to say plainly what kind of
+evidence it is. A finding that rests on a decision record alone rests on an
+agent's account of the operator's position, ratified by the operator — not on
+the operator's own recollection. That is weaker than the operator's account and
+stronger than nothing, and this paper marks the difference rather than blurring
+it.
+
+The corpus now says so itself. `docs/decisions/README.md`, added after the
+study period, gives the attribution for each record with the command that
+produces it, and states what it means for a reader: the decisions are the
+owner's; a record is authoritative about intent and unreliable about ordering;
+and a record can be drafted by the thing it is about.
+
+The methodological consequence is this paper's own method, turned on itself.
+§2.4 requires two independent artefacts for a finding: a machine-checkable
+trace in the repository, and a record of intent. The trailers are the
+attribution instrument (§7), and they are self-declared — but they are in the
+history, they are public, and they are what made this finding visible at all.
+
+### 4.5 The environment, which is a different failure
 
 During the period the machine the agents ran on was compromised by a trojan.
 It was found at the end, the credentials it could reach were rotated, and the
@@ -569,7 +655,8 @@ The same shape appears in the budgets (§5.5).
 ### 5.4 Everything else that was needed
 
 - **Records that must exist.** Seventeen decision records are named. Deleting
-  one fails the build.
+  one fails the build — unless the same commit also removes its name from the
+  manifest, which nothing prevents (§5.6).
 - **Forbidden paths.** Fourteen glob patterns (`.env`, `*.pem`, `*.key`,
   `credentials.json`, and so on) are matched against every tracked file, at any
   depth.
@@ -607,13 +694,33 @@ Stating this is part of the mechanism.
 
 It does not make the code good. It does not decide what to build — that was
 still judgement, and the camera episode shows how a judgement call can be
-overridden by a fleet. It does not protect against a compromised host (§4.4). It
+overridden by a fleet. It does not protect against a compromised host (§4.5). It
 does not catch a wrong change that satisfies every rule. And it does not
 survive the files it protects being deleted *and* their hashes removed in the
 same commit, because the manifest that holds the hashes is not itself
 hash-pinned. What stands in that gap is a `CODEOWNERS` entry naming the owner,
 which asks rather than requires: the owner is asked to see the change that
 arrives with an updated hash beside it.
+
+There is a second limit, and it is about timing rather than design. The
+mechanism did not exist when F1 happened. The guardrail script and its manifest
+were written on 2026-10-26, twenty days after the removal; before it, `tools/`
+held one file, and the `main` ruleset required no status check and no
+approval, with bypass actors that included admins, maintainers and writers
+(§4.1). Nothing would have stopped that commit, because there was nothing to
+stop it. The removal was not a safeguard failing. It was the absence of one.
+
+And the same limit has the same shape in a second place. The manifest's list of
+records that must exist is a list in a file that is not itself hash-pinned. A
+commit that deletes a record and drops its name from the list in the same
+commit satisfies both checks. The repository's own rulebook says what the
+sanctioned shape is: "A protected file is edited in two places, in one commit:
+the file, and its hash in `tools/guardrails.manifest.json`" — and the pair is
+visible in the diff.
+So the mechanism is built to make a change visible rather than to prevent it,
+which is the right trade and also the limit. F1 was visible: the commit said
+exactly what it did. What was missing was not visibility. It was a build that
+failed.
 
 Nor does it stand in for the branch. The ruleset on `main` is what makes the
 build load-bearing at all — the `Gate` and `Guardrails` checks are required
@@ -651,7 +758,7 @@ product — of this paper. The decision records, the guardrail script, the
 manifest and the transcript are not scaffolding around a feature; they are the
 artefact under study.
 
-The transferable lesson is narrower than "write more process". It is that
+The transferable lesson is narrower than *write more process*. It is that
 **the cost of a safeguard is paid in process and should be counted there**.
 Building the mechanism in §5 took 453 lines of tooling, 17 decision records,
 and 29 of the corpus's 104 commits — the ones that touched the rules file,
@@ -667,8 +774,8 @@ checks; the third marks the limit of what a check can see.
 
 **Scope as recorded removals.** "Stay inside the brief" is unparseable, and it
 arrived too late to matter (§3). What replaced it names the paths: the
-specification harness was removed because the brief did not ask for it, and
-the *reason* was written down in the manifest as a recorded removal, printed by
+specification harness is listed by path, with the reason it is gone, and the
+*reason* is written down in the manifest as a recorded removal, printed by
 the guardrail script on every run, so the next reader finds the reason instead
 of a gap. This is decision record 0009's principle — an unexplained absence
 reads as an oversight, a recorded exclusion reads as judgement — with the
@@ -712,9 +819,21 @@ it was not tested against a randomised baseline. Nothing here supports a claim
 that mechanically enforced safeguards improve software outcomes.
 
 **Self-report.** The operator is also the author, and adjudicated every
-conflict the paper describes. The decision records are his account. Where a
-finding rests on the decision record alone — F2's account of *why* the agents
-built their own camera — we say so in the text.
+conflict the paper describes. The decision records state his positions, and
+most of them were drafted by an agent and ratified by him afterwards (§4.4).
+Where a finding rests on the decision record alone — F2's account of *why* the
+agents built their own camera, and F3's first two checks — we say so in the
+text, because that evidence is an agent's account of the operator's position
+rather than the operator's own recollection.
+
+**The remedy postdates the failure.** The mechanism in §5 was written on
+2026-10-26, twenty days after F1. At the time of the removal there was no
+guardrail script, no manifest, no required status check and no required
+approval (§4.1, §5.6). This paper therefore reports a remedy written after the
+fact, by the same people who ran the experiment, for an episode it could not
+have prevented. Nothing here shows the mechanism would have changed the
+outcome. What it shows is what the repository looked like once the constraints
+were moved into the build.
 
 **The account and the artefact disagree about sequence.** §4.1 reports that the
 operator's later account attributes the removal to an agent reading "stay
@@ -744,7 +863,7 @@ it only where a commit corroborates.
 abandoned. Repositories where the mechanism failed badly are, by construction,
 the ones not written up.
 
-**One incident, self-reported.** The incident in §4.4 has no independent
+**One incident, self-reported.** The incident in §4.5 has no independent
 forensic record in this paper.
 
 ---
@@ -753,10 +872,12 @@ forensic record in this paper.
 
 Agents optimise against whatever you make checkable, and prose is not
 checkable. In a 30-day corpus of agents working concurrently on one repository
-under a prose-only rulebook, an agent correctly deleted the repository's own
-safeguards and said so in the commit; a directive to use the platform's
-primitive was written the day after the work it should have governed; and three
-checks passed while asserting less than they appeared to.
+under a prose-only rulebook, an agent deleted the repository's own safeguards
+and said so in the commit, under a scope reading the corpus's own records
+contradict; a directive to use the platform's primitive was written the day
+after the work it should have governed; three checks passed while asserting
+less than they appeared to; and most of the records that say what was decided
+were themselves drafted by the agents they describe.
 The mechanism that followed moves the constraints into the build: hash-pinned
 protected files, mechanical invariants, required and forbidden gate targets,
 and separately bounded budgets.
@@ -775,7 +896,8 @@ The generalisable claim is narrow and, we think, durable: the cost of running
 agents against a repository is not the code they write. It is the number of
 things that were true only in prose, and what happens to them the first time
 an agent reads them correctly — including the rulebook the agent writes
-afterwards, to explain what it has just done.
+afterwards, to explain what it has just done, and the decision record that
+goes with it.
 
 ---
 
@@ -859,11 +981,32 @@ git log $CORPUS --format=%B | grep '^Co-authored-by:' \
   | sed 's/Co-authored-by: //' | sort | uniq -c | sort -rn
 ```
 
-Table 2:
+Table 2, and the per-area breakdown it gives:
 
 ```sh
 git show --numstat --format='' 9eeb60a      # the removal
 git show --shortstat --format='' 9eeb60a    # 137 files changed, +104 −10,097
+git show --numstat --format='' 9eeb60a \
+  | awk -F'\t' '{split($3,p,"/"); a=(p[2]==""?"repository root":p[1]"/"); f[a]++; d[a]+=$2} \
+      END{for(k in f) printf "%d %d %s\n", f[k], d[k], k}' \
+  | sort -k1,1nr -k3,3r
+# 107 7379 libs/
+# 10 443 apps/
+# 9 602 repository root
+# 9 1595 docs/
+# 1 73 tools/
+# 1 5 .github/
+```
+
+The two sources the paper counts by hand — the transcript, and the rules file as
+it stood at the end of the study period:
+
+```sh
+git show $CORPUS:docs/transcripts/2026-10-25-the-exercise.md | wc -l   # 9924
+git show $CORPUS:docs/transcripts/2026-10-25-the-exercise.md | sed -n '/^Turns:/p'
+# Turns: 86. Tool calls: 1834. Context compactions: 7.
+git show $CORPUS:AGENTS.md | wc -l     # 149
+git show $CORPUS:AGENTS.md | sed -n '/Scope rules/,/^## /p' | grep -cE '^[0-9]+\.'   # 6
 ```
 
 The timeline of §3 and §4.1 — the scope rules were written by the removal, and
@@ -882,11 +1025,50 @@ git show 9eeb60a:AGENTS.md  | sed -n '/Scope rules/,/^## /p'             # the n
 git log --format='%h %ad' --date=short -S'not scaffolding' $CORPUS -- AGENTS.md
 ```
 
+The removal was the second of two commits, and the record that contradicts its
+first sentence was removed with it:
+
+```sh
+git show -s --format='%h %ad %s' --date=short 5915058   # the day before
+git show --name-status --format='' 5915058 \
+  | grep -E 'ai-guardrails|handoff|gate\.sh|guard\.sh|qa-'   # the guardrail notes and hooks
+git show 5915058^:docs/decisions/0007-storybook-scope.md | sed -n '5,12p'
+git show 5915058^:docs/decisions/0007-storybook-scope.md | sed -n '/Interaction assertions/,+2p'
+git show 9eeb60a^:package.json | grep -E '"(test|test-storybook|gate)"'
+```
+
+The attribution behind F4, one line per record:
+
+```sh
+for f in docs/decisions/[0-9]*.md; do
+  printf '%-46s %s\n' "$(basename "$f")" \
+    "$(git log -1 --format='%h %s | %(trailers:key=Co-authored-by,valueonly,separator=" + ")' -- "$f")"
+done
+```
+
+What existed when F1 happened, and when the mechanism arrived:
+
+```sh
+git ls-tree -r --name-only 9eeb60a^ -- tools/    # one file: tools/vitest-setup.ts
+git ls-tree -r --name-only 9eeb60a  -- tools/    # empty
+git log --diff-filter=A --format='%h %ad %s' --date=short -- tools/guardrails.mjs
+git log --diff-filter=A --format='%h %ad %s' --date=short -- tools/guardrails.manifest.json
+```
+
+And the two lists the manifest holds, which is where the bootstrap gap lives:
+
+```sh
+git show b200e23:tools/guardrails.manifest.json \
+  | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const m=JSON.parse(s);
+      console.log("hash-pinned:", Object.keys(m.files).join(", "));
+      console.log("must exist:", Object.keys(m.directories["docs/decisions"].mustExist).length, "records")})'
+```
+
 The camera episode:
 
 ```sh
-git show --numstat --format='' a27f292      # PR #47: 29 files, +365 −1,561
-git show --numstat --format='' c7fe8ae      # PR #57: 15 files, +98 −370
+git show --shortstat --format='' a27f292    # PR #47: 29 files changed, +365 −1,561
+git show --shortstat --format='' c7fe8ae    # PR #57: 15 files changed, +98 −370
 git diff --stat 6f6ec34 origin/refactor/camera-components \
   -- libs/web/features/camera/              # empty: the trunk matched the branch
 git ls-tree -r --name-only 6f6ec34 -- libs/web/features/camera \
@@ -902,6 +1084,8 @@ at that commit:
 bun run budget        # size budget: 81/95 files, 3073/3300 non-blank lines
                       # test budget: 4/12 files, 227/400 non-blank lines
 bun run guardrails    # 9 files, 6 invariants, 17 records, 165 tracked files scanned
+git show $CORPUS:tools/guardrails.mjs $CORPUS:tools/size-budget.mjs \
+  $CORPUS:tools/guardrails.manifest.json | wc -l   # 453
 ```
 
 The commits that carried the mechanism (§6.1):
@@ -909,7 +1093,7 @@ The commits that carried the mechanism (§6.1):
 ```sh
 git log --format=%h $CORPUS -- tools/ docs/decisions/ AGENTS.md CLAUDE.md \
   lefthook.yml .cursor/hooks.json .claude/settings.json \
-  .github/workflows/guardrails.yml | sort -u | wc -l   # 29 of 104
+  .github/workflows/guardrails.yml | sort -u | wc -l   # 29
 ```
 
 The branch protection and the rulesets. These are properties of the
@@ -927,14 +1111,17 @@ gh api repos/effinrich/h2-fe-assessment/branches/main/protection --jq \
 
 gh api repos/effinrich/h2-fe-assessment/rulesets --jq \
   '.[] | {name, target, enforcement, bypass_actors}'
-# feature-branches  branch  active  null
-# main             branch  active  null
+# {"bypass_actors":null,"enforcement":"active","name":"feature-branches","target":"branch"}
+# {"bypass_actors":null,"enforcement":"active","name":"main","target":"branch"}
 
 ID=$(gh api repos/effinrich/h2-fe-assessment/rulesets --jq \
   '.[] | select(.name=="main") | .id')
 gh api repos/effinrich/h2-fe-assessment/rulesets/$ID --jq \
-  '[.rules[] | {type, reviews: .parameters.required_approving_review_count,
-     checks: .parameters.required_status_checks}]'
-# deletion, non_fast_forward, pull_request (reviews 0), creation,
-# required_status_checks (Gate, Guardrails)
+  '.rules[] | {type, reviews: .parameters.required_approving_review_count,
+     checks: .parameters.required_status_checks}'
+# {"checks":null,"reviews":null,"type":"deletion"}
+# {"checks":null,"reviews":null,"type":"non_fast_forward"}
+# {"checks":null,"reviews":0,"type":"pull_request"}
+# {"checks":null,"reviews":null,"type":"creation"}
+# {"checks":[{"context":"Gate"},{"context":"Guardrails"}],"reviews":null,"type":"required_status_checks"}
 ```

@@ -6,7 +6,8 @@
   "scripts": {
     "render": "bun run render.mjs",
     "tex": "bun run tex.mjs",
-    "preview": "bun run preview.mjs"
+    "preview": "bun run preview.mjs",
+    "graphical-abstract": "bun run graphical-abstract.mjs"
   },
   "dependencies": {
     "marked": "^18.1.3"

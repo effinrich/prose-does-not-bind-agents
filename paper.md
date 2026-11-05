@@ -4,7 +4,7 @@ short_title: "Prose Does Not Bind Agents"
 subtitle: "Mechanically Enforced Safeguards for Multi-Agent Coding on a Single Repository"
 author: "Rich Tillman"
 email: "effinrich@pm.me"
-date: 2026-11-03
+date: 2026-11-04
 type: preprint
 ai_disclosure: "This manuscript was drafted with an AI coding agent under the author's direction, and the author verified every quantitative claim against the public repository. The corpus analysed in §2 was itself produced with AI coding agents, which is the subject of the paper."
 keywords:
@@ -23,6 +23,10 @@ keywords:
 
 **Rich Tillman**
 Independent Researcher · [github.com/effinrich](https://github.com/effinrich) · effinrich@pm.me
+
+© 2026 Rich Tillman. Licensed under the Creative Commons Attribution 4.0
+International Licence (CC BY 4.0). Source and build:
+<https://github.com/effinrich/prose-does-not-bind-agents>.
 
 ---
 
@@ -774,6 +778,21 @@ an agent reads them correctly — including the rulebook the agent writes
 afterwards, to explain what it has just done.
 
 ---
+
+## Conflicts of Interest
+
+The author declares no conflict of interest. The sponsor of the work the corpus
+records is named throughout the corpus, and this paper discusses the work, not
+the sponsor's assessment of it.
+
+## Data Availability
+
+Everything this paper measures is public. The corpus is the repository at
+<https://github.com/effinrich/h2-fe-assessment> at commit `b200e23`, and every
+count in Table 1 is reproducible from it with the commands in Appendix A. The
+preprint's source, the build that renders it and the rendered PDF are at
+<https://github.com/effinrich/prose-does-not-bind-agents>. The corpus is also
+the data: there is no other dataset behind this paper.
 
 ## References
 

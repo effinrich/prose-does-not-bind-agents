@@ -4,7 +4,7 @@
 
 Rich Tillman · Independent Researcher · [github.com/effinrich](https://github.com/effinrich) · effinrich@pm.me
 
-Preprint, 2026-11-03.
+Preprint, 2026-11-04.
 
 ## Abstract
 
@@ -48,13 +48,15 @@ repository governance; guardrails; large language models; empirical case study
 
 ## The paper
 
-- [`paper.pdf`](paper.pdf) — the formatted preprint (A4, 14 pages). This is the
+- [`paper.pdf`](paper.pdf) — the formatted preprint (A4, 16 pages). This is the
   one to submit.
 - [`paper-latex.pdf`](paper-latex.pdf) — the same paper typeset by LaTeX, for
   venues that prefer a TeX-produced PDF.
 - [`paper.tex`](paper.tex) — the LaTeX source.
 - [`paper.md`](paper.md) — the markdown source. It is the single source of truth;
   the PDF and the LaTeX are generated from it.
+- [`graphical-abstract.png`](graphical-abstract.png) — the one-picture summary,
+  for preprint servers that show one next to the abstract.
 
 ## The corpus
 
@@ -72,6 +74,7 @@ bun install
 bun run render.mjs   # paper.md -> paper.html -> paper.pdf
 bun run tex.mjs      # paper.md -> paper.tex
 bun run preview.mjs  # paper.html -> preview-top.png, for eyeballing the layout
+bun run graphical-abstract.mjs   # graphical-abstract.html -> graphical-abstract.png
 ```
 
 `render.mjs` resolves `marked` and `playwright` from `node_modules`. The LaTeX

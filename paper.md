@@ -694,8 +694,8 @@ gate, and the rule that used to forbid it was flipped to require it (§5.3).
    ambiguity in the rulebook.
 4. **Publish the finding, not the corpus.** The transcript is evidence; the
    finding is the contribution. A reader who wants 9,924 lines of raw session
-   can have them from the repository; a reader who wants the lesson should not
-   have to find it.
+   can have them from the repository at the commit this paper pins; a reader
+   who wants the lesson should not have to find it.
 
 ---
 

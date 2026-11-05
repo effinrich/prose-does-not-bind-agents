@@ -370,14 +370,15 @@ in detail. It was **co-authored by the agent that made it**: the trailer names
 Cursor. This is not a story about an agent concealing a deletion. Every artefact
 a reader would need is in the commit.
 
-It was also the second of two commits. The day before, `5915058` (#42) — also
-carrying Cursor's trailer — deleted `ai-guardrails.md`, `handoff.md`, the two
-`.commandcode/hooks/` scripts, the QA reports and `copilot-instructions.md`,
-and edited `HARNESS.md` and the four spec files. Its message classified the lot
-as "agent-tool leftovers and scratch notes", and said "None are app source". A
-day later `9eeb60a` (#43) removed the harness under the heading "strip the test
-harness". The rubric came first, and the same rubric — *not asked for, so not
-ours* — took the guardrail notes and then the harness.
+It was also the second of two commits. Three minutes earlier, `5915058` (#42) —
+`9eeb60a`'s direct parent, and also carrying Cursor's trailer — deleted
+`ai-guardrails.md`, `handoff.md`, the two `.commandcode/hooks/` scripts, the QA
+reports and `copilot-instructions.md`, and edited `HARNESS.md` and the four spec
+files. Its message classified the lot as "agent-tool leftovers and scratch
+notes", and said "None are app source". Three minutes later `9eeb60a` (#43)
+removed the harness under the heading "strip the test harness". The rubric came
+first, and the same rubric — *not asked for, so not ours* — took the guardrail
+notes and then the harness.
 
 What the commit's first sentence claims, though, the corpus does not support.
 "Testing is not required by the brief" is a reading of the brief, and decision
@@ -541,19 +542,25 @@ operator's, and two by commits with no trailer at all — one of those two the
 operator's own scaffold commit, the other unattributed. Each of those counts
 is one command away (§Appendix A).
 
-One of those records is decision record 0017, which §4.2 quotes: the account of
-the camera episode, of the four agents that built their own primitive. It was
-drafted by MiniMax Code in `39c7710`, the same commit that took the bespoke
-camera out of the trunk. The record of what happened was written by the agent
-that made it happen.
+One of those records is decision record 0017, which §4.2 quotes for its account
+of the camera episode, of the four agents that built their own primitive. It
+was drafted by MiniMax Code in `39c7710`, the commit that added the crop shape
+the record decides on: the record of that decision and the decision are one
+commit, made by the same agent.
 
-That is not a reason to discount the record. It states the operator's position,
-and the operator ratified it. It is a reason to say plainly what kind of
-evidence it is. A finding that rests on a decision record alone rests on an
-agent's account of the operator's position, ratified by the operator — not on
-the operator's own recollection. That is weaker than the operator's account and
-stronger than nothing, and this paper marks the difference rather than blurring
-it.
+It is also wrong about the episode it recounts. It says of the bespoke camera
+that none of it reached `main`; `6f6ec34` is on the trunk, and its camera
+directory is byte-for-byte the tip of `origin/refactor/camera-components`
+(§4.2).
+
+Both things make the same point about what a record is. It states the
+operator's position, and the operator ratified it, so it is authoritative
+about what was decided. It is not the operator's own recollection, and where
+it speaks about other people's work, it can be wrong. A finding that rests on
+a decision record alone rests on an agent's account of the operator's
+position, ratified by the operator. That is weaker than the operator's account
+and stronger than nothing, and this paper marks the difference rather than
+blurring it.
 
 The corpus now says so itself. `docs/decisions/README.md`, added after the
 study period, gives the attribution for each record with the command that
@@ -877,7 +884,7 @@ and said so in the commit, under a scope reading the corpus's own records
 contradict; a directive to use the platform's primitive was written the day
 after the work it should have governed; three checks passed while asserting
 less than they appeared to; and most of the records that say what was decided
-were themselves drafted by the agents they describe.
+were themselves drafted by an agent rather than by the owner.
 The mechanism that followed moves the constraints into the build: hash-pinned
 protected files, mechanical invariants, required and forbidden gate targets,
 and separately bounded budgets.
@@ -1025,11 +1032,13 @@ git show 9eeb60a:AGENTS.md  | sed -n '/Scope rules/,/^## /p'             # the n
 git log --format='%h %ad' --date=short -S'not scaffolding' $CORPUS -- AGENTS.md
 ```
 
-The removal was the second of two commits, and the record that contradicts its
-first sentence was removed with it:
+The removal was the second of two commits, three minutes apart, and the record
+that contradicts its first sentence was removed with it:
 
 ```sh
-git show -s --format='%h %ad %s' --date=short 5915058   # the day before
+git show -s --format='%h %ad %s' --date=short 5915058   # three minutes earlier
+git show -s --format='%h %ad %s' --date=short 9eeb60a   # its direct child
+git rev-parse 9eeb60a^                                 # 5915058
 git show --name-status --format='' 5915058 \
   | grep -E 'ai-guardrails|handoff|gate\.sh|guard\.sh|qa-'   # the guardrail notes and hooks
 git show 5915058^:docs/decisions/0007-storybook-scope.md | sed -n '5,12p'
@@ -1044,6 +1053,16 @@ for f in docs/decisions/[0-9]*.md; do
   printf '%-46s %s\n' "$(basename "$f")" \
     "$(git log -1 --format='%h %s | %(trailers:key=Co-authored-by,valueonly,separator=" + ")' -- "$f")"
 done
+```
+
+And the two records F4 is about — the crop shape the record decides on, and the
+bespoke camera it misdescribes:
+
+```sh
+git show -s --format='%h %ad %s' --date=short 39c7710   # the crop shape, and the record
+git show --name-status --format='' 39c7710 \
+  | grep -E '0017-camera-tool|crop-shape-util|crop-export'
+git show -s --format='%h %ad %s' --date=short 6f6ec34   # the bespoke camera, on the trunk
 ```
 
 What existed when F1 happened, and when the mechanism arrived:

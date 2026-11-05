@@ -54,7 +54,7 @@ repository governance; guardrails; large language models; empirical case study
 
 ## The paper
 
-- [`paper.pdf`](paper.pdf) — the formatted preprint (A4, 18 pages). This is the
+- [`paper.pdf`](paper.pdf) — the formatted preprint (A4, 19 pages). This is the
   one to submit.
 - [`paper-latex.pdf`](paper-latex.pdf) — the same paper typeset by LaTeX, for
   venues that prefer a TeX-produced PDF.

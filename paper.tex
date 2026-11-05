@@ -206,7 +206,7 @@ The commit message reads, in full:
 
 Read it again. The deletion was \textbf{disclosed}, in the first person, by name and in detail. It was \textbf{co-authored by the agent that made it}: the trailer names Cursor. This is not a story about an agent concealing a deletion. Every artefact a reader would need is in the commit.
 
-It was also the second of two commits. The day before, \texttt{5915058} (\#42) --- also carrying Cursor's trailer --- deleted \texttt{ai-guardrails.md}, \texttt{handoff.md}, the two \texttt{.commandcode/hooks/} scripts, the QA reports and \texttt{copilot-instructions.md}, and edited \texttt{HARNESS.md} and the four spec files. Its message classified the lot as \textquotedbl{}agent-tool leftovers and scratch notes\textquotedbl{}, and said \textquotedbl{}None are app source\textquotedbl{}. A day later \texttt{9eeb60a} (\#43) removed the harness under the heading \textquotedbl{}strip the test harness\textquotedbl{}. The rubric came first, and the same rubric --- \emph{not asked for, so not ours} --- took the guardrail notes and then the harness.
+It was also the second of two commits. Three minutes earlier, \texttt{5915058} (\#42) --- \texttt{9eeb60a}'s direct parent, and also carrying Cursor's trailer --- deleted \texttt{ai-guardrails.md}, \texttt{handoff.md}, the two \texttt{.commandcode/hooks/} scripts, the QA reports and \texttt{copilot-instructions.md}, and edited \texttt{HARNESS.md} and the four spec files. Its message classified the lot as \textquotedbl{}agent-tool leftovers and scratch notes\textquotedbl{}, and said \textquotedbl{}None are app source\textquotedbl{}. Three minutes later \texttt{9eeb60a} (\#43) removed the harness under the heading \textquotedbl{}strip the test harness\textquotedbl{}. The rubric came first, and the same rubric --- \emph{not asked for, so not ours} --- took the guardrail notes and then the harness.
 
 What the commit's first sentence claims, though, the corpus does not support. \textquotedbl{}Testing is not required by the brief\textquotedbl{} is a reading of the brief, and decision record 0007, dated 2026-10-01 and removed in this same commit, had already rejected that reading five days earlier:
 
@@ -276,9 +276,11 @@ This finding is the strongest argument for the mechanism in \S{}5. A guardrail i
 
 Seventeen decision records state the repository's positions, and they are the closest thing in the corpus to a primary source for intent. They are also, for the most part, not the operator's prose. At the corpus's final commit, eleven records had last been written by a commit carrying a single agent's \texttt{Co-authored-by} trailer, four by a commit carrying an agent's and the operator's, and two by commits with no trailer at all --- one of those two the operator's own scaffold commit, the other unattributed. Each of those counts is one command away (\S{}Appendix A).
 
-One of those records is decision record 0017, which \S{}4.2 quotes: the account of the camera episode, of the four agents that built their own primitive. It was drafted by MiniMax Code in \texttt{39c7710}, the same commit that took the bespoke camera out of the trunk. The record of what happened was written by the agent that made it happen.
+One of those records is decision record 0017, which \S{}4.2 quotes for its account of the camera episode, of the four agents that built their own primitive. It was drafted by MiniMax Code in \texttt{39c7710}, the commit that added the crop shape the record decides on: the record of that decision and the decision are one commit, made by the same agent.
 
-That is not a reason to discount the record. It states the operator's position, and the operator ratified it. It is a reason to say plainly what kind of evidence it is. A finding that rests on a decision record alone rests on an agent's account of the operator's position, ratified by the operator --- not on the operator's own recollection. That is weaker than the operator's account and stronger than nothing, and this paper marks the difference rather than blurring it.
+It is also wrong about the episode it recounts. It says of the bespoke camera that none of it reached \texttt{main}; \texttt{6f6ec34} is on the trunk, and its camera directory is byte-for-byte the tip of \texttt{origin/refactor/camera-components} (\S{}4.2).
+
+Both things make the same point about what a record is. It states the operator's position, and the operator ratified it, so it is authoritative about what was decided. It is not the operator's own recollection, and where it speaks about other people's work, it can be wrong. A finding that rests on a decision record alone rests on an agent's account of the operator's position, ratified by the operator. That is weaker than the operator's account and stronger than nothing, and this paper marks the difference rather than blurring it.
 
 The corpus now says so itself. \texttt{docs/decisions/README.md}, added after the study period, gives the attribution for each record with the command that produces it, and states what it means for a reader: the decisions are the owner's; a record is authoritative about intent and unreliable about ordering; and a record can be drafted by the thing it is about.
 
@@ -404,7 +406,7 @@ The rulebook survived, with three changes. Two move constraints from prose into 
 
 \section*{8. Conclusion}
 
-Agents optimise against whatever you make checkable, and prose is not checkable. In a 30-day corpus of agents working concurrently on one repository under a prose-only rulebook, an agent deleted the repository's own safeguards and said so in the commit, under a scope reading the corpus's own records contradict; a directive to use the platform's primitive was written the day after the work it should have governed; three checks passed while asserting less than they appeared to; and most of the records that say what was decided were themselves drafted by the agents they describe. The mechanism that followed moves the constraints into the build: hash-pinned protected files, mechanical invariants, required and forbidden gate targets, and separately bounded budgets.
+Agents optimise against whatever you make checkable, and prose is not checkable. In a 30-day corpus of agents working concurrently on one repository under a prose-only rulebook, an agent deleted the repository's own safeguards and said so in the commit, under a scope reading the corpus's own records contradict; a directive to use the platform's primitive was written the day after the work it should have governed; three checks passed while asserting less than they appeared to; and most of the records that say what was decided were themselves drafted by an agent rather than by the owner. The mechanism that followed moves the constraints into the build: hash-pinned protected files, mechanical invariants, required and forbidden gate targets, and separately bounded budgets.
 
 Three design rules follow, and they are the paper's whole argument.
 
@@ -509,10 +511,12 @@ git show 9eeb60a:AGENTS.md  | sed -n '/Scope rules/,/^## /p'             # the n
 git log --format='%h %ad' --date=short -S'not scaffolding' $CORPUS -- AGENTS.md
 \end{Verbatim}
 
-The removal was the second of two commits, and the record that contradicts its first sentence was removed with it:
+The removal was the second of two commits, three minutes apart, and the record that contradicts its first sentence was removed with it:
 
 \begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true]
-git show -s --format='%h %ad %s' --date=short 5915058   # the day before
+git show -s --format='%h %ad %s' --date=short 5915058   # three minutes earlier
+git show -s --format='%h %ad %s' --date=short 9eeb60a   # its direct child
+git rev-parse 9eeb60a^                                 # 5915058
 git show --name-status --format='' 5915058 \
   | grep -E 'ai-guardrails|handoff|gate\.sh|guard\.sh|qa-'   # the guardrail notes and hooks
 git show 5915058^:docs/decisions/0007-storybook-scope.md | sed -n '5,12p'
@@ -527,6 +531,15 @@ for f in docs/decisions/[0-9]*.md; do
   printf '%-46s %s\n' "$(basename "$f")" \
     "$(git log -1 --format='%h %s | %(trailers:key=Co-authored-by,valueonly,separator=" + ")' -- "$f")"
 done
+\end{Verbatim}
+
+And the two records F4 is about --- the crop shape the record decides on, and the bespoke camera it misdescribes:
+
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true]
+git show -s --format='%h %ad %s' --date=short 39c7710   # the crop shape, and the record
+git show --name-status --format='' 39c7710 \
+  | grep -E '0017-camera-tool|crop-shape-util|crop-export'
+git show -s --format='%h %ad %s' --date=short 6f6ec34   # the bespoke camera, on the trunk
 \end{Verbatim}
 
 What existed when F1 happened, and when the mechanism arrived:

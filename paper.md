@@ -151,7 +151,7 @@ evaluated. Every commit, decision record, safeguard and transcript cited
 below is reachable at <https://github.com/effinrich/h2-fe-assessment>, so each
 claim can be checked rather than taken on trust.
 
-**Table 1 — The corpus at the end of the study period.**
+**Table 1 — The corpus at the end of the study period, at commit `b200e23`.**
 
 | Property | Value |
 | --- | --- |
@@ -172,7 +172,8 @@ claim can be checked rather than taken on trust.
 | Decision records | 17 |
 
 Counts are reproducible from the public repository; the commands are in the
-appendix (§A). Commits are classified by subject prefix, which is the only
+appendix (§A), where they are pinned to that commit rather than to the branch
+tip, so that later commits to the repository do not change what they report. Commits are classified by subject prefix, which is the only
 taxonomy the history supports: a `Merge …` subject, a product prefix
 (`feat`, `fix`, `perf`, `refactor`, `ci`, `test`), a process prefix (`docs`,
 `chore`, `style`, `build`), or other. One of the twenty in the merge group is
@@ -516,7 +517,9 @@ The manifest that holds the hashes is not itself hash-pinned; it cannot be,
 without a bootstrap. Its protection is a `CODEOWNERS` entry naming the owner.
 That entry *asks* for the owner's review, and the repository's own safeguards
 note records why it cannot be more than that: the ruleset requires no
-approving review, and there is no second approver. The guarantee is
+approving review, and there is no second approver. The API confirms it, and
+the appendix gives the command: the ruleset on `main` sets its required
+approving review count to zero. The guarantee is
 therefore split in two: the build catches a protected file that changes alone,
 and the owner is asked to see the change that arrives with an updated hash
 beside it.
@@ -610,7 +613,14 @@ arrives with an updated hash beside it.
 
 Nor does it stand in for the branch. The ruleset on `main` is what makes the
 build load-bearing at all — the `Gate` and `Guardrails` checks are required
-status checks, and no bypass actor can skip them. Before the failure the same
+status checks, and no bypass actor can skip them. That is a claim about the
+repository's configuration rather than about a file inside it, so it is worth
+saying how a reader checks it: the GitHub API reports the rule, and the
+appendix gives the commands. The repository carries two of them for `main`, a
+branch protection rule and a ruleset, and both require the same two checks.
+The protection rule sets `strict` and includes administrators; the ruleset
+requires a pull request but no approving review; neither names a bypass
+actor. Before the failure the same
 ruleset required a pull request, no force push and no deletion, and nothing
 else; the removal satisfied it (§4.1). The mechanism did not replace the
 ruleset. It gave the ruleset something to require.
@@ -812,16 +822,21 @@ script and manifest, the budget script, and the session transcript.
 
 ## Appendix A — Reproducing the counts
 
-Every number in Table 1 is reproducible from the public repository.
+Every number in Table 1 is reproducible from the public repository. The
+commands below are pinned to the commit that ended the study period rather
+than to the branch tip, so that later commits to the repository do not change
+what they report.
 
 ```sh
-git rev-list --count origin/main                       # 104
-git log --format=%s origin/main | grep -c '^Merge'    # 20 commits with a Merge subject
-git rev-list --count --merges origin/main              # 19 of them are merges by parent
-git log --format=%s origin/main | grep -cE '^(feat|fix|perf|refactor|ci|test)'   # 35
-git log --format=%s origin/main | grep -cE '^(docs|chore|style|build)'            # 45
-git log origin/main --format=%B | grep -c '^Co-authored-by:'                     # 126
-git log origin/main --format=%B | grep '^Co-authored-by:' \
+CORPUS=b200e23                # the trunk at the end of the study period
+
+git rev-list --count $CORPUS                       # 104
+git log --format=%s $CORPUS | grep -c '^Merge'    # 20 commits with a Merge subject
+git rev-list --count --merges $CORPUS              # 19 of them are merges by parent
+git log --format=%s $CORPUS | grep -cE '^(feat|fix|perf|refactor|ci|test)'   # 35
+git log --format=%s $CORPUS | grep -cE '^(docs|chore|style|build)'            # 45
+git log $CORPUS --format=%B | grep -c '^Co-authored-by:'                     # 126
+git log $CORPUS --format=%B | grep '^Co-authored-by:' \
   | sed 's/Co-authored-by: //' | sort | uniq -c | sort -rn
 ```
 
@@ -845,7 +860,7 @@ git ls-tree -r --name-only 9eeb60a^ \
 git grep -ic 'stay inside the brief' 9eeb60a^ -- .   # no hits: the rule did not exist yet
 git show 9eeb60a^:AGENTS.md | sed -n '/Rules that do not bend/,/^## /p'   # the old rules
 git show 9eeb60a:AGENTS.md  | sed -n '/Scope rules/,/^## /p'             # the new rules
-git log --format='%h %ad' --date=short -S'not scaffolding' origin/main -- AGENTS.md
+git log --format='%h %ad' --date=short -S'not scaffolding' $CORPUS -- AGENTS.md
 ```
 
 The camera episode:
@@ -861,7 +876,8 @@ git ls-tree -r --name-only origin/refactor/camera-structure \
   -- libs/web/features/camera | grep -cE '\.tsx?$'   # 36 files, the variant that never merged
 ```
 
-The mechanism, and the state of the repository at the end of the study period:
+The mechanism, and the state of the repository at the end of the study period, run
+at that commit:
 
 ```sh
 bun run budget        # size budget: 81/95 files, 3073/3300 non-blank lines
@@ -872,7 +888,34 @@ bun run guardrails    # 9 files, 6 invariants, 17 records, 165 tracked files sca
 The commits that carried the mechanism (§6.1):
 
 ```sh
-git log --format=%h origin/main -- tools/ docs/decisions/ AGENTS.md CLAUDE.md \
+git log --format=%h $CORPUS -- tools/ docs/decisions/ AGENTS.md CLAUDE.md \
   lefthook.yml .cursor/hooks.json .claude/settings.json \
   .github/workflows/guardrails.yml | sort -u | wc -l   # 29 of 104
+```
+
+The branch protection and the rulesets. These are properties of the
+repository's configuration rather than of any file in it, so they are read
+from the API rather than from the tree. The rulesets endpoint is public; the
+branch protection endpoint answers only to an authenticated caller.
+
+```sh
+gh api repos/effinrich/h2-fe-assessment/branches/main/protection --jq \
+  '{checks: .required_status_checks.contexts, strict: .required_status_checks.strict,
+    admins: .enforce_admins.enabled, reviews: .required_reviews,
+    restrictions: .restrictions}'
+# {"admins":true,"checks":["Gate","Guardrails"],"restrictions":null,
+#  "reviews":null,"strict":true}
+
+gh api repos/effinrich/h2-fe-assessment/rulesets --jq \
+  '.[] | {name, target, enforcement, bypass_actors}'
+# feature-branches  branch  active  null
+# main             branch  active  null
+
+ID=$(gh api repos/effinrich/h2-fe-assessment/rulesets --jq \
+  '.[] | select(.name=="main") | .id')
+gh api repos/effinrich/h2-fe-assessment/rulesets/$ID --jq \
+  '[.rules[] | {type, reviews: .parameters.required_approving_review_count,
+     checks: .parameters.required_status_checks}]'
+# deletion, non_fast_forward, pull_request (reviews 0), creation,
+# required_status_checks (Gate, Guardrails)
 ```

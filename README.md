@@ -2,7 +2,7 @@
 
 **Mechanically Enforced Safeguards for Multi-Agent Coding on a Single Repository**
 
-Rich Tillman · Independent Researcher · [github.com/effinrich](https://github.com/effinrich) · effinrich@pm.me
+Rich Tillman · Principal Frontend Engineer · [github.com/effinrich](https://github.com/effinrich) · effinrich@pm.me
 
 Preprint, 2026-11-04.
 
@@ -110,7 +110,8 @@ rather than a general markdown-to-LaTeX engine, so it handles the constructs
 }
 ```
 
-The DOI is assigned on deposit and will replace the placeholder above.
+The DOI is assigned on deposit and will be added to the entry above when it
+exists.
 
 ## License
 

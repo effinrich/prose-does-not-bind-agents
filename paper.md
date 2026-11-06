@@ -3,6 +3,7 @@ title: "Prose Does Not Bind Agents: Mechanically Enforced Safeguards for Multi-A
 short_title: "Prose Does Not Bind Agents"
 subtitle: "Mechanically Enforced Safeguards for Multi-Agent Coding on a Single Repository"
 author: "Rich Tillman"
+role: "Principal Frontend Engineer"
 email: "effinrich@pm.me"
 date: 2026-11-04
 type: preprint
@@ -22,7 +23,7 @@ keywords:
 ## Mechanically Enforced Safeguards for Multi-Agent Coding on a Single Repository
 
 **Rich Tillman**
-Independent Researcher · [github.com/effinrich](https://github.com/effinrich) · effinrich@pm.me
+Principal Frontend Engineer · [github.com/effinrich](https://github.com/effinrich) · effinrich@pm.me
 
 © 2026 Rich Tillman. Licensed under the Creative Commons Attribution 4.0
 International Licence (CC BY 4.0). Source and build:

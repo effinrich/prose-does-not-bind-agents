@@ -145,7 +145,7 @@ const document = `<!doctype html>
 <div class="titleblock">
   <h1>${frontmatter.short_title ?? frontmatter.title ?? ""}</h1>
   <div class="subtitle">${frontmatter.subtitle ?? ""}</div>
-  <p class="byline">${frontmatter.author ?? ""} · Independent Researcher ·
+  <p class="byline">${frontmatter.author ?? ""} · ${frontmatter.role ?? ""} ·
     <a href="https://github.com/effinrich">github.com/effinrich</a> ·
     ${frontmatter.email ?? ""}</p>
   <p class="date">Preprint, ${frontmatter.date ?? ""}</p>

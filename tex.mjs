@@ -336,6 +336,7 @@ function blocksToTex(md) {
 const title = frontmatter.short_title ?? frontmatter.title ?? "Paper"
 const subtitle = frontmatter.subtitle ?? ""
 const author = frontmatter.author ?? ""
+const role = frontmatter.role ?? ""
 const email = frontmatter.email ?? ""
 const date = frontmatter.date ?? ""
 
@@ -361,7 +362,7 @@ const preamble = `\\documentclass[11pt,a4paper]{article}
 \\begin{document}
 
 \\title{${inline(title)}\\\\ \\large ${inline(subtitle)}}
-\\author{${inline(author)}\\\\ Independent Researcher \\\\ \\href{https://github.com/effinrich}{github.com/effinrich} \\\\ ${inline(email)}}
+\\author{${inline(author)}\\\\ ${inline(role)} \\\\ \\href{https://github.com/effinrich}{github.com/effinrich} \\\\ ${inline(email)}}
 \\date{${inline(date)}}
 
 \\maketitle

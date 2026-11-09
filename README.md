@@ -106,12 +106,30 @@ rather than a general markdown-to-LaTeX engine, so it handles the constructs
                   for Multi-Agent Coding on a Single Repository},
   author       = {Tillman, Rich},
   year         = {2026},
-  howpublished = {Preprint}
+  howpublished = {Preprint},
+  doi          = {10.5281/zenodo.XXXXXXX}
 }
 ```
 
-The DOI is assigned on deposit and will be added to the entry above when it
-exists.
+The DOI is assigned on deposit. The entry above carries the Zenodo placeholder;
+the first release replaces it with the real DOI.
+
+### Depositing
+
+The DOI comes from Zenodo's GitHub app. Connect the app to this repository in
+<https://github.com/settings/apps>, then publish a release with the PDFs
+attached:
+
+```sh
+gh release create v1.0.0 \
+  --title "v1.0.0" \
+  --notes "First release." \
+  paper.pdf paper-latex.pdf
+```
+
+Zenodo opens a draft, publishes it, and issues the DOI. Every later release is a
+new version with its own DOI, all under one concept DOI, so the title and the
+byline can still be corrected after the first deposit.
 
 ## License
 
